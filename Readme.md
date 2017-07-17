@@ -1,7 +1,6 @@
-# Test Network 
+# Open Transport Paper Data 
 1. This is a network data repository for transportation research.
 2. This repository is maintained by Dr. Yu Jiang. http://orcid.org/0000-0001-9461-633X
-
 
 # License
 1. Currently, all data set contained is created data set and only used for academic research purpose. 
