@@ -21,7 +21,7 @@ class ODClass:
 # Step 1: Read created bus set
 bus_stops = []
 df = pd.read_csv("BusSet.csv",header=None)
-all_bus_stos = []
+all_bus_stops = []
 for b in range(0,num_bus_line):
     stops = []
     for s in range(0,max_bus_stops):
@@ -33,12 +33,12 @@ for b in range(0,num_bus_line):
 bus_num = 1
 with open("Stops.txt","w") as f:
     for b in range(0, num_bus_line):
-        # print("{0}".format(bus_num),end=' ',file = f)
+        print("{0}".format(bus_num),end=' ',file = f)
         for s in range(0,len(bus_stops[b])-1):
             print("{0}".format(bus_stops[b][s]),end=' ',file=f)
         print("{0}".format(bus_stops[b][-1]),file=f)
         bus_num=bus_num+1
-        all_bus_stos.append(bus_stops[b])
+        all_bus_stops.append(bus_stops[b])
     # for b in range(num_bus_line,0,-1):
     #     # print("{0}".format(bus_num),end=' ',file = f)
     #     line = []
@@ -57,7 +57,7 @@ with open("Stops.txt","w") as f:
     #     bus_num=bus_num+1
 
 print("**************Chekck all bus stops")
-for b in all_bus_stos:
+for b in all_bus_stops:
     print(b)
 # Step 3 generate leg seg data 
 linkid = pd.read_csv("linkdata.txt",header=None,delimiter=r"\s+")
@@ -79,17 +79,18 @@ for l in links:
 print("***************Check Line Seg Data***********")
 with open("LineSegData.txt","w") as f:
     LineIndex = 0
-    for b in all_bus_stos:
+    for b in all_bus_stops:
         LineIndex = LineIndex + 1
         seg = 1
-        for i in range(1,len(b)-1):
+        for i in range(0,len(b)-1):
             now = b[i]
             next_stop = b[i+1]
             if now!=0 and next_stop!=0:
+                print("now={0},next={1},line={2}".format(now,next_stop,LineIndex))
                 x =[c for c in links if c.tail==now and c.head==next_stop]
                 tt =  float(x[0].cost[0])
                 # print(tt)
-                print("{0} {1} {2} {3} {4} 1".format(LineIndex, now,next_stop,tt,
+                print("{0} {1} {2} {3} 1".format(LineIndex, seg,tt,
                 random.random()*tt),file=f)  # the last 1 is fare dummy
                 # print("{0}".format(b[0]),end=" ",file=f)
                 # print("now={0},next={1}".format(now,next_stop))
@@ -99,6 +100,15 @@ with open("LineSegData.txt","w") as f:
                 # print("0",end=" ",file=f)  #variance
                 # print("1",file=f)    # fare value set to be 1
                 seg = seg +1
+
+with open("NumLineStops.txt","w+") as f:
+    for b in range(0,len(all_bus_stops)):
+        num_stop = 0
+        for s in all_bus_stops[b]:
+            if s >0 :
+                num_stop =  num_stop + 1
+        print("{0} {1}".format(b+1,num_stop),file=f)
+
 
 
 # I do not think I need the following
