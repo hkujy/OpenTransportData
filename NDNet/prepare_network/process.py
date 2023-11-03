@@ -3,17 +3,14 @@
 """
 import pandas as pd
 import random
-num_bus_line = 20
-max_bus_stops = 10
+num_bus_line = 2
+max_bus_stops = 6
 
 class LinkClass:
     def __init__(self,_a,_b,_t):
         self.tail =_a
         self.head =_b
-        self.cost =_|   |   |
-|---|---|
-|   |   |
-t
+        self.cost =_t
 class ODClass:
     def __init__(self,_o,_d,_val):
         self.origin =_o
